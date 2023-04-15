@@ -1,0 +1,6 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <!-- Don't forget to change this in ./templates/http-csharp/content/Project.csproj -->
+        <WasiSdkVersion>0.1.4-preview.10020</WasiSdkVersion>
+    </PropertyGroup>
+</Project>

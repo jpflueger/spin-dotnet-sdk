@@ -10,12 +10,11 @@
 
   <ItemGroup>
     <!-- TODO: There should be some way to indicate "this is a class library so don't build a .wasm binary" even when referencing this SDK -->
-    <PackageReference Include="Wasi.Sdk" Version="0.1.1" />
+    <PackageReference Include="Wasi.Sdk" Version="$(WasiSdkVersion)" />
   </ItemGroup>
 
 	<Target Name="PackTaskDependencies" BeforeTargets="GenerateNuspec">
-		
-    <ItemGroup>
+		<ItemGroup>
 			<_PackageFiles Include="build\**" BuildAction="Content" PackagePath="build" />
 			<_PackageFiles Include="native\**" BuildAction="Content" PackagePath="native" />
 		</ItemGroup>
