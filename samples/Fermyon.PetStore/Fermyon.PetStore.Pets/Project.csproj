@@ -20,7 +20,7 @@
   </PropertyGroup>
   
   <PropertyGroup>
-      <UseWizer>true</UseWizer>
+      <UseWizer>false</UseWizer>
   </PropertyGroup>
 
 </Project>
