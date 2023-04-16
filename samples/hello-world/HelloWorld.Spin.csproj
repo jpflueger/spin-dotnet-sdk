@@ -9,7 +9,7 @@
     <RootNamespace>hello_world</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <UseWizer>false</UseWizer>
+    <UseWizer>true</UseWizer>
   </PropertyGroup>
 
   <ItemGroup>

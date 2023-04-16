@@ -103,11 +103,14 @@ public static class Handler
             responseText.AppendLine($"Header '{h.Key}' had value '{h.Value}'");
         }
 
-        var uri = new System.Uri(request.Headers["spin-full-url"]);
-        var queryParameters = System.Web.HttpUtility.ParseQueryString(uri.Query);
-        foreach (var key in queryParameters.AllKeys)
+        if (request.Headers.TryGetValue("spin-full-url", out string? fullUrl) && !string.IsNullOrEmpty(fullUrl))
         {
-            responseText.AppendLine($"Parameter '{key}' had value '{queryParameters[key]}'");
+            var uri = new System.Uri(fullUrl);
+            var queryParameters = System.Web.HttpUtility.ParseQueryString(uri.Query);
+            foreach (var key in queryParameters.AllKeys)
+            {
+                responseText.AppendLine($"Parameter '{key}' had value '{queryParameters[key]}'");
+            }
         }
 
         var bodyInfo = request.Body.HasContent() ?
