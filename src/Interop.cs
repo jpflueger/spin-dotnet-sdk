@@ -26,6 +26,8 @@ public readonly struct Buffer : IEnumerable<byte>
     /// </summary>
     public unsafe ReadOnlySpan<byte> AsSpan() => new ReadOnlySpan<byte>((void*)_ptr, _length);
 
+    public Memory<byte> AsMemory() => new BufferMemoryManager<byte>(_ptr, _length).Memory;
+
     /// <summary>
     /// Creates a Buffer containing a string, encoding it using UTF-8.
     /// </summary>
@@ -50,6 +52,28 @@ public readonly struct Buffer : IEnumerable<byte>
         return new Buffer(mem, exactByteCount);
     }
 
+    public static unsafe Buffer FromStream(Stream stream)
+    {
+        var exactByteCount = Convert.ToInt32(stream.Length);
+        var mem = Marshal.AllocHGlobal(exactByteCount);
+        var buffer = new Span<byte>((void*)mem, exactByteCount);
+
+        // reset the stream and read it into the buffer
+        stream.Position = 0;
+        stream.Read(buffer);
+
+        return new Buffer(mem, exactByteCount);
+    }
+
+    public static Buffer FromHttpContent(HttpContent content)
+    {
+        // should be able to use/dispose of the stream after the copy finishes
+        using (var stream = content.ReadAsStream())
+        {
+        return Buffer.FromStream(stream);
+        }
+    }
+
     /// <summary>
     /// Gets the contents of the Buffer as a string, interpreting it using
     /// UTF-8 encoding.
@@ -67,7 +91,7 @@ public readonly struct Buffer : IEnumerable<byte>
     /// </summary>
     public IEnumerator<byte> GetEnumerator() => new Enumerator(_ptr, _length);
     System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
-    
+
     private unsafe struct Enumerator : IEnumerator<byte>
     {
         private readonly byte* _ptr;
