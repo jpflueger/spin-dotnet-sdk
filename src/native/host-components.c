@@ -1,6 +1,5 @@
 #include <stdlib.h>
 
-#include <mono-wasi/driver.h>
 #include <mono/metadata/assembly.h>
 #include <mono/metadata/class.h>
 #include <mono/metadata/appdomain.h>
@@ -11,6 +10,7 @@
 #include <mono/metadata/reflection.h>
 #include <mono/utils/mono-publib.h>
 
+#include "driver.h"
 #include "host-components.h"
 #include "wasi-outbound-http.h"
 #include "outbound-redis.h"

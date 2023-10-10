@@ -1,24 +1,26 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<ItemGroup>
-		<WasiNativeFileReference Include="$(MSBuildThisFileDirectory)..\native\host-components.c" />
-		<WasiNativeFileReference Include="$(MSBuildThisFileDirectory)..\native\http-trigger.c" />
-		<WasiNativeFileReference Include="$(MSBuildThisFileDirectory)..\native\util.c" />
-		<WasiNativeFileReference Include="$(MSBuildThisFileDirectory)..\native\spin-http.c" />
-		<WasiNativeFileReference Include="$(MSBuildThisFileDirectory)..\native\wasi-outbound-http.c" />
-		<WasiNativeFileReference Include="$(MSBuildThisFileDirectory)..\native\outbound-pg.c" />
-		<WasiNativeFileReference Include="$(MSBuildThisFileDirectory)..\native\outbound-redis.c" />
-		<WasiNativeFileReference Include="$(MSBuildThisFileDirectory)..\native\spin-config.c" />
-		<WasiAfterRuntimeLoaded Include="spin_attach_internal_calls" />
+    <ItemGroup>
+        <NativeFileReference Include="$(MSBuildThisFileDirectory)../native/host-components.c" />
+        <NativeFileReference Include="$(MSBuildThisFileDirectory)../native/http-trigger.c" />
+        <NativeFileReference Include="$(MSBuildThisFileDirectory)../native/outbound-pg.c" />
+        <NativeFileReference Include="$(MSBuildThisFileDirectory)../native/outbound-redis.c" />
+        <NativeFileReference Include="$(MSBuildThisFileDirectory)../native/spin-config.c" />
+        <NativeFileReference Include="$(MSBuildThisFileDirectory)../native/spin-http.c" />
+        <NativeFileReference Include="$(MSBuildThisFileDirectory)../native/wasi-outbound-http.c" />
+        <_WasmNativeFileForLinking Include="@(NativeFileReference)" />
+        <WasiAfterRuntimeLoaded Include="spin_attach_internal_calls" />
 	</ItemGroup>
 
 	<!-- Wizer is only enabled if the developer explicitly opts in, because it will only work if they have the wizer binary on PATH -->
 	<!-- Consider baking wizer into spin itself so that it can generate its own preinitialized version of the .wasm modules during startup -->
-	<Target Name="RunWizer" AfterTargets="CopyWasmToOutput" Condition="$(UseWizer) == 'true'">
-		<Message Importance="high" Text="Running wizer to preinitialize @(WasiSdkBinOutputFiles)..." />
-		<Exec Command="wizer @(WasiSdkBinOutputFiles) -o @(WasiSdkBinOutputFiles).pre.wasm --allow-wasi" />
-		<Delete Files="@(WasiSdkBinOutputFiles)" />
-		<Move SourceFiles="@(WasiSdkBinOutputFiles->'%(Identity).pre.wasm')" DestinationFiles="@(WasiSdkBinOutputFiles)" />
+	<Target Name="RunWizer" AfterTargets="WasmBuildApp" Condition="$(UseWizer) == 'true'">
+        <PropertyGroup>
+            <_WasmFile>$(WasmAppDir)/$([System.IO.Path]::GetFileNameWithoutExtension($(WasmMainAssemblyFileName))).wasm</_WasmFile>
+            <_PreWasmFile>$(WasmAppDir)/$([System.IO.Path]::GetFileNameWithoutExtension($(WasmMainAssemblyFileName))).pre.wasm</_PreWasmFile>
+        </PropertyGroup>
+		<Message Importance="high" Text="Running wizer to preinitialize..." />
+        <Exec Command="wizer $(_WasmFile) -o $(_PreWasmFile) --allow-wasi --wasm-bulk-memory true" />
 	</Target>
 
 </Project>

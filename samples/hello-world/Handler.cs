@@ -6,9 +6,16 @@ namespace Fermyon.Spin.HelloWorld;
 
 public static class Handler
 {
+    public static void Main(string[] args)
+    {
+        // no-op
+        Console.WriteLine("This should be a no-op");
+    }
+
     [HttpHandler]
     public static HttpResponse HandleHttpRequest(HttpRequest request)
     {
+        Console.WriteLine($"Got request for {request.Url} with method {request.Method}");
         if (request.Url.StartsWith("/outbound"))
         {
             return UseOutboundHttp(request);
@@ -117,6 +124,16 @@ public static class Handler
 
         if (request.Url != Warmup.DefaultWarmupUrl)
         {
+            foreach (var d in Directory.GetDirectories("."))
+            {
+                Console.WriteLine($"Found directory {d}");
+            }
+
+            foreach (var f in Directory.GetFiles("."))
+            {
+                Console.WriteLine($"Found file {f}");
+            }
+
             responseText.AppendLine("We now present the contents of a static asset:");
             responseText.AppendLine(File.ReadAllText("/assets/asset-text.txt"));
             responseText.AppendLine("And here are some config strings:");
