@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="../../../src/build/Fermyon.Spin.Sdk.props" />
-  <Import Project="../../../src/build/Fermyon.Spin.Sdk.targets" />
+  <Import Project="../../../src/Fermyon.Spin.Sdk/build/Fermyon.Spin.Sdk.props" />
+  <Import Project="../../../src/Fermyon.Spin.Sdk/build/Fermyon.Spin.Sdk.targets" />
 
   <ItemGroup>
     <PackageReference Include="Wasi.Sdk" Version="0.1.1" />
@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../Fermyon.PetStore.Common/Fermyon.PetStore.Common.csproj" />
-    <ProjectReference Include="../../../src/Fermyon.Spin.Sdk.csproj" />
+    <ProjectReference Include="../../../src/Fermyon.Spin.Sdk/Fermyon.Spin.Sdk.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

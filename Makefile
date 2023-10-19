@@ -1,10 +1,10 @@
 .PHONY: generate
 generate:
-	# wit-bindgen c --export wit/ephemeral/spin-http.wit --out-dir ./src/native/
-	# wit-bindgen c --import wit/ephemeral/wasi-outbound-http.wit --out-dir ./src/native/
-	# wit-bindgen c --import wit/ephemeral/outbound-redis.wit --out-dir ./src/native
-	# wit-bindgen c --import wit/ephemeral/outbound-pg.wit --out-dir ./src/native
-	# wit-bindgen c --import wit/ephemeral/spin-config.wit --out-dir ./src/native
+	# wit-bindgen c --export wit/ephemeral/spin-http.wit --out-dir ./src/Fermyon.Spin.Sdk/native/
+	# wit-bindgen c --import wit/ephemeral/wasi-outbound-http.wit --out-dir ./src/Fermyon.Spin.Sdk/native/
+	# wit-bindgen c --import wit/ephemeral/outbound-redis.wit --out-dir ./src/Fermyon.Spin.Sdk/native
+	# wit-bindgen c --import wit/ephemeral/outbound-pg.wit --out-dir ./src/Fermyon.Spin.Sdk/native
+	# wit-bindgen c --import wit/ephemeral/spin-config.wit --out-dir ./src/Fermyon.Spin.Sdk/native
 
 .PHONY: bootstrap
 bootstrap:

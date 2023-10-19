@@ -5,7 +5,7 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../src/Fermyon.Spin.Sdk.csproj" />
+    <ProjectReference Include="../../../src/Fermyon.Spin.Sdk/Fermyon.Spin.Sdk.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
