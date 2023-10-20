@@ -28,14 +28,14 @@ the provided template - see below for details.
 
 To build and run the `hello-world` sample, clone this repo and run:
 
-```
+```sh
 $ cd samples/hello-world
 $ spin build && spin up --follow-all
 ```
 
 If everything worked, you should see a Spin "serving routes" message:
 
-```
+```sh
 Serving http://127.0.0.1:3000
 Available Routes:
   hello: http://127.0.0.1:3000 (wildcard)
@@ -43,7 +43,7 @@ Available Routes:
 
 You should be able to curl the address and get a response along the lines of:
 
-```
+```sh
 $ curl -v 127.0.0.1:3000
 // outbound trace omitted
 < HTTP/1.1 200 OK
@@ -63,7 +63,7 @@ The body was empty
 
 The SDK includes a Spin template for C# projects.  To install it, run:
 
-```
+```sh
 spin templates install --git https://github.com/fermyon/spin-dotnet-sdk --branch main --update
 ```
 
@@ -96,7 +96,7 @@ Your `spin.toml` file should reference the compiled Wasm file built from the pro
 ```toml
 [[component]]
 id = "test"
-source = "bin/Release/net7.0/MyApplication.wasm"
+source = "bin/Release/net8.0/wasi-wasm/AppBundle/MyApplication.wasm"
 [component.trigger]
 route = "/..."
 ```
@@ -144,10 +144,10 @@ an unmanaged span of Wasm linear memory.  The SDK provides several convenience m
 to make it easier to work with.  For example:
 
 * Use `HttpRequest.Body.AsString()` and `HttpRequest.Body.AsBytes()` to read a request
-  body as text or a binary blob.
+   body as text or a binary blob.
 * Use `Buffer.ToUTF8String()` to read an arbitrary Buffer as string.
 * Use `HttpResponse.BodyAsString` and `HttpResponse.BodyAsBytes` to set the body of
-  a HTTP response.
+   a HTTP response.
 * Use `Buffer.FromString()` to write a string into a buffer using the UTF-8 encoding.
 * Use `Buffer.FromBytes()` to write any sequence of bytes into a buffer.
 
@@ -166,12 +166,12 @@ interpreter has already seen your code), saving startup time when a request come
 Using Wizer has certain observable impacts:
 
 * You should not (and in some cases cannot) call external services from the warmup request
-  handler.  If your handler talks to HTTP or Redis, you _must skip those calls at warmup time_.
-  If the warmup code fails, then the build will fail.
+   handler.  If your handler talks to HTTP or Redis, you _must skip those calls at warmup time_.
+   If the warmup code fails, then the build will fail.
 * Static constructors and static member initialisation happens at warmup time (at least for
-  any type used on the warmup path).  For example, if your handler type has a static
-  `Random` member, and this gets initialised during warmup, then _the same state of the random
-  number generator_ will be used in all requests!
+   any type used on the warmup path).  For example, if your handler type has a static
+   `Random` member, and this gets initialised during warmup, then _the same state of the random
+   number generator_ will be used in all requests!
 
 You can identify if a request is the warmup request because the URL will be `/warmupz`.
 You can override this in the `HttpHandler` attribute.  However, it is not currently possible
@@ -208,12 +208,12 @@ The Spin .NET SDK is a preview, built on an implementation of .NET that is curre
 There are several known issues, of which the most severe are:
 
 * Some static methods and properties cause a "indirect call type mismatch" error when Wizer is turned
-  on - we have seen this on numeric parse methods and `StringComparer` properties.
-  You can work around this by turning Wizer off for affected modules. To do this, change
-  `<UseWizer>true</UseWizer>` in the `.csproj` to `<UseWizer>false</UseWizer>`.
+   on - we have seen this on numeric parse methods and `StringComparer` properties.
+   You can work around this by turning Wizer off for affected modules. To do this, change
+   `<UseWizer>true</UseWizer>` in the `.csproj` to `<UseWizer>false</UseWizer>`.
 * In some cases, unhandled exceptionc also cause "indirect call type mismatch" instead of being
-  returned as 500 Internal Server Error responses. You can work around this by catching problematic
-  exceptions and returning error responses manually.
+   returned as 500 Internal Server Error responses. You can work around this by catching problematic
+   exceptions and returning error responses manually.
 
 You can track issues or report problems at https://github.com/fermyon/spin-dotnet-sdk/issues.
 

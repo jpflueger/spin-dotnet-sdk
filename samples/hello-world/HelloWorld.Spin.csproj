@@ -1,23 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="../../src/Fermyon.Spin.Sdk/build/Fermyon.Spin.Sdk.props" />
-  <Import Project="../../src/Fermyon.Spin.Sdk/build/Fermyon.Spin.Sdk.targets" />
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
-    <RootNamespace>hello_world</RootNamespace>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <UseWizer>true</UseWizer>
-  </PropertyGroup>
+    <RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
+    <WasmSingleFileBundle>true</WasmSingleFileBundle>
+    <PublishTrimmed>true</PublishTrimmed>
 
-  <ItemGroup>
-    <PackageReference Include="Wasi.Sdk" Version="0.1.1" />
-  </ItemGroup>
+    <RootNamespace>hello_world</RootNamespace>
+    <!-- <UseWizer>true</UseWizer> -->
+  </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="../../src/Fermyon.Spin.Sdk/Fermyon.Spin.Sdk.csproj" />
   </ItemGroup>
+
+  <Import Project="../../src/Fermyon.Spin.Sdk/build/Fermyon.Spin.Sdk.targets" />
 
 </Project>

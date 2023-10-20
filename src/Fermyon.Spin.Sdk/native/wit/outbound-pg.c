@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "outbound-pg.h"
+#include <outbound-pg.h>
 
 __attribute__((weak, export_name("canonical_abi_realloc")))
 void *canonical_abi_realloc(

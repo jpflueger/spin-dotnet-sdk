@@ -1,24 +1,50 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<ItemGroup>
-		<WasiNativeFileReference Include="$(MSBuildThisFileDirectory)..\native\host-components.c" />
-		<WasiNativeFileReference Include="$(MSBuildThisFileDirectory)..\native\http-trigger.c" />
-		<WasiNativeFileReference Include="$(MSBuildThisFileDirectory)..\native\util.c" />
-		<WasiNativeFileReference Include="$(MSBuildThisFileDirectory)..\native\spin-http.c" />
-		<WasiNativeFileReference Include="$(MSBuildThisFileDirectory)..\native\wasi-outbound-http.c" />
-		<WasiNativeFileReference Include="$(MSBuildThisFileDirectory)..\native\outbound-pg.c" />
-		<WasiNativeFileReference Include="$(MSBuildThisFileDirectory)..\native\outbound-redis.c" />
-		<WasiNativeFileReference Include="$(MSBuildThisFileDirectory)..\native\spin-config.c" />
-		<WasiAfterRuntimeLoaded Include="spin_attach_internal_calls" />
+        <_WasmNativeFileForLinking Include="$(MSBuildThisFileDirectory)\..\native\wit\*.c" />
+        <_WasiSdkClangArgs Include="-I&quot;$([System.String]::Copy('$(MSBuildThisFileDirectory)..\wit\generated').Replace('\','/'))&quot;" />
 	</ItemGroup>
 
 	<!-- Wizer is only enabled if the developer explicitly opts in, because it will only work if they have the wizer binary on PATH -->
 	<!-- Consider baking wizer into spin itself so that it can generate its own preinitialized version of the .wasm modules during startup -->
 	<Target Name="RunWizer" AfterTargets="CopyWasmToOutput" Condition="$(UseWizer) == 'true'">
 		<Message Importance="high" Text="Running wizer to preinitialize @(WasiSdkBinOutputFiles)..." />
-		<Exec Command="wizer @(WasiSdkBinOutputFiles) -o @(WasiSdkBinOutputFiles).pre.wasm --allow-wasi" />
+		<Exec Command="wizer @(WasiSdkBinOutputFiles) -o @(WasiSdkBinOutputFiles).pre.wasm --allow-wasi --wasm-bulk-memory true" />
 		<Delete Files="@(WasiSdkBinOutputFiles)" />
 		<Move SourceFiles="@(WasiSdkBinOutputFiles->'%(Identity).pre.wasm')" DestinationFiles="@(WasiSdkBinOutputFiles)" />
 	</Target>
+    
+    <!-- dotnet 8 wasi-wasm target currently expects a Main() method so we generate one because we're building a reactor component anyways -->
+    <Target Name="GenerateProgram" BeforeTargets="CoreCompile" Outputs="$(IntermediateOutputPath)Program.g.cs">
+        <PropertyGroup>
+            <_ProgramCs>
+class Program
+{
+    static void Main%28%29
+    {
+        System.Console.WriteLine%28&quot;Runtime loaded.&quot;%29%3B
+    }
+}
+            </_ProgramCs>
+        </PropertyGroup>
+
+        <ItemGroup>
+            <_ProgramCsLines Include="$(_ProgramCs.Split(`\n`))" />
+        </ItemGroup>
+
+        <WriteLinesToFile
+            File="$(IntermediateOutputPath)Program.g.cs"
+            Lines="$(_ProgramCs)"
+            Overwrite="true" />
+
+        <ItemGroup>
+            <Compile Remove="$(IntermediateOutputPath)Program.g.cs" />
+            <Compile Include="$(IntermediateOutputPath)Program.g.cs" />
+            <FileWrites Include="$(IntermediateOutputPath)Program.g.cs" />
+        </ItemGroup>
+    </Target>
+    <Target Name="CleanGeneratedProgram" AfterTargets="CoreClean">
+        <Delete Files="$(IntermediateOutputPath)Program.g.cs" />
+    </Target>
 
 </Project>
