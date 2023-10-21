@@ -2,7 +2,9 @@
 
 	<ItemGroup>
         <_WasmNativeFileForLinking Include="$(MSBuildThisFileDirectory)\..\native\wit\*.c" />
-        <_WasiSdkClangArgs Include="-I&quot;$([System.String]::Copy('$(MSBuildThisFileDirectory)..\wit\generated').Replace('\','/'))&quot;" />
+        <_WasiSdkClangArgs Include="-I&quot;$([System.String]::Copy('$(MSBuildThisFileDirectory)..\native\wit').Replace('\','/'))&quot;" />
+        <_WasmNativeFileForLinking Include="$(MSBuildThisFileDirectory)\..\native\*.c" />
+        <_WasiSdkClangArgs Include="-I&quot;$([System.String]::Copy('$(MSBuildThisFileDirectory)..\native').Replace('\','/'))&quot;" />
 	</ItemGroup>
 
 	<!-- Wizer is only enabled if the developer explicitly opts in, because it will only work if they have the wizer binary on PATH -->

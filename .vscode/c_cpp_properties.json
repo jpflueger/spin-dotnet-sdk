@@ -1,0 +1,27 @@
+{
+    "version": 4,
+    "configurations": [
+        {
+            "name": "dotnet-wasi",
+            "includePath": [
+                "${workspaceFolder}/src/Fermyon.Spin.Sdk/native/wit",
+                "${workspaceFolder}/src/Fermyon.Spin.Sdk/native",
+                "${workspaceFolder}/samples/hello-world/obj/Release/net8.0/wasi-wasm/wasm/for-build",
+                "/usr/local/share/dotnet/packs/Microsoft.NETCore.App.Runtime.Mono.wasi-wasm/8.0.0-rc.2.23479.6/runtimes/wasi-wasm/native/include/mono-2.0",
+                "/usr/local/share/dotnet/packs/Microsoft.NETCore.App.Runtime.Mono.wasi-wasm/8.0.0-rc.2.23479.6/runtimes/wasi-wasm/native/include/wasm",
+                "/usr/local/share/dotnet/packs/Microsoft.NETCore.App.Runtime.Mono.wasi-wasm/8.0.0-rc.2.23479.6/runtimes/wasi-wasm/native/include"
+            ],
+            "defines": [
+                "GEN_PINVOKE=1",
+                "WASM_SINGLE_FILE=1"
+            ],
+            "compilerPath": "/Users/j12r/.local/share/wasi-sdk/20/bin/clang",
+            "cStandard": "gnu11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "macos-clang-arm64",
+            "compilerArgs": [
+                "\"--sysroot\", \"/Users/j12r/.local/share/wasi-sdk/20/share/wasi-sysroot\""
+            ],
+        }
+    ],
+}
