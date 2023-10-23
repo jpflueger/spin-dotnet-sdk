@@ -6,3 +6,7 @@ obj/
 .vs/
 !templates/**/filters/*.wasm
 .spin/
+
+*.dll
+*.deps.json
+*.pdb

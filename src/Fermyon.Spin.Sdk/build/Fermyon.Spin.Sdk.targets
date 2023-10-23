@@ -1,4 +1,5 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <UsingTask TaskName="GenerateHttpTriggerLookupTask" AssemblyFile="$(MSBuildThisFileDirectory)..\build\Fermyon.Spin.MSBuild.dll" />
 
 	<ItemGroup>
         <_WasmNativeFileForLinking Include="$(MSBuildThisFileDirectory)\..\native\wit\*.c" />
@@ -45,8 +46,23 @@ class Program
             <FileWrites Include="$(IntermediateOutputPath)Program.g.cs" />
         </ItemGroup>
     </Target>
+
     <Target Name="CleanGeneratedProgram" AfterTargets="CoreClean">
         <Delete Files="$(IntermediateOutputPath)Program.g.cs" />
     </Target>
 
+    <Target Name="GenerateGlueCode" AfterTargets="Build" BeforeTargets="_BeforeWasmBuildApp">
+        <PropertyGroup>
+            <!-- Recreating this property from the SDK -->
+            <_WasmIntermediateOutputPath Condition="'$(WasmBuildingForNestedPublish)' == ''">$([MSBuild]::NormalizeDirectory($(IntermediateOutputPath), 'wasm', 'for-build'))</_WasmIntermediateOutputPath>
+            <_WasmIntermediateOutputPath Condition="'$(WasmBuildingForNestedPublish)' != ''">$([MSBuild]::NormalizeDirectory($(IntermediateOutputPath), 'wasm', 'for-publish'))</_WasmIntermediateOutputPath>      
+        </PropertyGroup>
+        <GenerateHttpTriggerLookupTask
+            AssemblyPath="$(TargetPath)"
+            OutputPath="$(_WasmIntermediateOutputPath)" />
+        <ItemGroup>
+            <NativeFileReference Include="$(_WasmIntermediateOutputPath)http-trigger-lookup.c" />
+			<_WasmNativeFileForLinking Include="@(NativeFileReference)" />
+        </ItemGroup>
+    </Target>
 </Project>

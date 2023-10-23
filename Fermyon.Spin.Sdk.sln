@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{749D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.Spin", "samples\hello-world\HelloWorld.Spin.csproj", "{943CB3C9-8959-47DF-87A0-3F2E05C54B1A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fermyon.Spin.MSBuild", "src\Fermyon.Spin.MSBuild\Fermyon.Spin.MSBuild.csproj", "{A7AB6B8B-1C87-4D39-9C04-B81DB78D0830}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,9 +30,14 @@ Global
 		{943CB3C9-8959-47DF-87A0-3F2E05C54B1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{943CB3C9-8959-47DF-87A0-3F2E05C54B1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{943CB3C9-8959-47DF-87A0-3F2E05C54B1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7AB6B8B-1C87-4D39-9C04-B81DB78D0830}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7AB6B8B-1C87-4D39-9C04-B81DB78D0830}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7AB6B8B-1C87-4D39-9C04-B81DB78D0830}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7AB6B8B-1C87-4D39-9C04-B81DB78D0830}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D25604C5-2BDA-43E0-AAD9-0F9749BA5A95} = {7C32E79C-42F1-40BF-B04F-D14DCCEDED59}
 		{943CB3C9-8959-47DF-87A0-3F2E05C54B1A} = {749DC403-E7FF-4DDC-AE44-0307ECA1D0EF}
+		{A7AB6B8B-1C87-4D39-9C04-B81DB78D0830} = {7C32E79C-42F1-40BF-B04F-D14DCCEDED59}
 	EndGlobalSection
 EndGlobal

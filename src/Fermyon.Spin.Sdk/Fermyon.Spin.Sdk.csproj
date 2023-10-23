@@ -8,6 +8,10 @@
         <!-- <GenerateDocumentationFile>true</GenerateDocumentationFile> -->
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\Fermyon.Spin.MSBuild\Fermyon.Spin.MSBuild.csproj" />
+    </ItemGroup>
+
     <Target Name="PackTaskDependencies" BeforeTargets="GenerateNuspec">
         <ItemGroup>
             <_PackageFiles Include="build\**" BuildAction="Content" PackagePath="build" />

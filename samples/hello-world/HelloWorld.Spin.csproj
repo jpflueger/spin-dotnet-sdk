@@ -11,7 +11,7 @@
     <WasmSingleFileBundle>true</WasmSingleFileBundle>
     <PublishTrimmed>true</PublishTrimmed>
 
-    <RootNamespace>hello_world</RootNamespace>
+    <RootNamespace>Fermyon.Spin.HelloWorld</RootNamespace>
     <!-- <UseWizer>true</UseWizer> -->
   </PropertyGroup>
 
