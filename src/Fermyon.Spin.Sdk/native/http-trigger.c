@@ -4,7 +4,6 @@
 
 #include <spin-http.h>
 #include <http-trigger-lookup.h>
-#include <host-components.h>
 
 int initialized = 0;
 
@@ -18,7 +17,6 @@ void ensure_initialized() {
     printf("ensure_initialized\n");
     if (!initialized) {
         _start();
-        spin_attach_internal_calls();
         initialized = 1;
     }
 }

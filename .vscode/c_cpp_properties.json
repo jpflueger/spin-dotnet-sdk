@@ -4,24 +4,27 @@
         {
             "name": "dotnet-wasi",
             "includePath": [
-                "${workspaceFolder}/src/Fermyon.Spin.Sdk/native/wit",
-                "${workspaceFolder}/src/Fermyon.Spin.Sdk/native",
-                "${workspaceFolder}/samples/hello-world/obj/Release/net8.0/wasi-wasm/wasm/for-build",
+                "${WASI_SDK_PATH}/share/wasi-sysroot/include",
+                "${WASI_SDK_PATH}/lib/clang/16/include",
                 "/usr/local/share/dotnet/packs/Microsoft.NETCore.App.Runtime.Mono.wasi-wasm/8.0.0-rc.2.23479.6/runtimes/wasi-wasm/native/include/mono-2.0",
                 "/usr/local/share/dotnet/packs/Microsoft.NETCore.App.Runtime.Mono.wasi-wasm/8.0.0-rc.2.23479.6/runtimes/wasi-wasm/native/include/wasm",
-                "/usr/local/share/dotnet/packs/Microsoft.NETCore.App.Runtime.Mono.wasi-wasm/8.0.0-rc.2.23479.6/runtimes/wasi-wasm/native/include"
+                "/usr/local/share/dotnet/packs/Microsoft.NETCore.App.Runtime.Mono.wasi-wasm/8.0.0-rc.2.23479.6/runtimes/wasi-wasm/native/include",
+                "${workspaceFolder}/src/Fermyon.Spin.Sdk/native/wit",
+                "${workspaceFolder}/src/Fermyon.Spin.Sdk/native",
+                "${workspaceFolder}/samples/hello-world/obj/Release/net8.0/wasi-wasm/wasm/for-build"
             ],
             "defines": [
                 "GEN_PINVOKE=1",
                 "WASM_SINGLE_FILE=1"
             ],
-            "compilerPath": "/Users/j12r/.local/share/wasi-sdk/20/bin/clang",
             "cStandard": "gnu11",
             "cppStandard": "c++17",
-            "intelliSenseMode": "macos-clang-arm64",
+            "intelliSenseMode": "${default}",
+            "compilerPath": "${WASI_SDK_PATH}/bin/clang",
             "compilerArgs": [
-                "\"--sysroot\", \"/Users/j12r/.local/share/wasi-sdk/20/share/wasi-sysroot\""
-            ],
+                "\"--sysroot\", \"${WASI_SDK_PATH}/share/wasi-sysroot\"",
+                "\"-target\", \"wasm32-unknown-wasi\""
+            ]
         }
-    ],
+    ]
 }
